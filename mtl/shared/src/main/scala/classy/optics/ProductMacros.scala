@@ -106,7 +106,7 @@ private[classy] object ProductMacros:
         Expr.summon[Iso[tpe, A]] match
           case None => mkReview[S, tpes, A]
           case Some(iso) =>
-            Some('{ ${ iso }.composeReview(${ reviewOf[S, tpe] }) })
+            Some('{ $iso.composeReview(${ reviewOf[S, tpe] }) })
       case _ => None
   end mkReview
 

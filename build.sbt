@@ -1,7 +1,7 @@
 import _root_.io.github.davidgregory084.ScalaVersion.*
 import _root_.io.github.davidgregory084.ScalacOption
 
-import scala.Ordering.Implicits._
+import scala.Ordering.Implicits.*
 
 name := "classy-optics"
 
@@ -64,8 +64,6 @@ val root = tlCrossRootProject
   .aggregate(mtl, effect)
 
 ThisBuild / tlCiMimaBinaryIssueCheck := false
-
-ThisBuild / tlCiScalafmtCheck := true
 
 ThisBuild / tlCiDocCheck := false
 

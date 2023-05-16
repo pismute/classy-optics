@@ -45,7 +45,7 @@ private[classy] object SumMacros:
         Expr.summon[Iso[tpe, A]] match
           case None => mkPrism[S, tpes, A]
           case Some(iso) =>
-            Some('{ ${ iso }.composePrism(${ prismOf[S, tpe] }) })
+            Some('{ $iso.composePrism(${ prismOf[S, tpe] }) })
       case _ => None
   end mkPrism
 
