@@ -183,7 +183,7 @@ Instead, we can use `Ref` directly like the other MTL typeclasses.
 import classy.effect.*
 
 case class AppCache(http: HttpCache, db: DbCache)
-given [F[_]](using Ref[F, AppCache]): Ask[F, HttpCache] = deriveRef
+given [F[_]](using Ref[F, AppCache]): Ref[F, HttpCache] = deriveRef
 
 for
   given Ref[AppT, AppCache] <- Ref.of[AppT, AppCache](...)
