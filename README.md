@@ -118,7 +118,7 @@ summon[Review[AppError, String]] // error
 summon[Prism[AppError, Int]] // error
 summon[Prism[AppError, String]] // error
 ```
-n
+
 `classy-optics` does not traverse all hierarchical tree. It looks for only first level, and root level for sum types. So data hierarchy should be kept along with application hierarchy:
 
 ```scala

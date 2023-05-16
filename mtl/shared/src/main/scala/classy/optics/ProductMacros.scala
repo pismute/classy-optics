@@ -95,19 +95,4 @@ private[classy] object ProductMacros:
 
   end genLens
 
-  private def reviewOf[T: Type, A: Type](using Quotes): Expr[Review[T, A]] =
-    val review: Expr[A => T] = '{ a => a.asInstanceOf[T] }
-    '{ Review[T, A]($review) }
-
-  private def mkReview[S: Type, T: Type, A: Type](using Quotes): Option[Expr[Review[S, A]]] =
-    Type.of[T] match
-      case '[A *: tpes] => Some(reviewOf[S, A])
-      case '[tpe *: tpes] =>
-        Expr.summon[Iso[tpe, A]] match
-          case None => mkReview[S, tpes, A]
-          case Some(iso) =>
-            Some('{ $iso.composeReview(${ reviewOf[S, tpe] }) })
-      case _ => None
-  end mkReview
-
 end ProductMacros
