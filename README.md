@@ -60,7 +60,7 @@ val DbService = DbService[AppT]
 
 ## Classy optics
 
-`classy-optics` has the same goal with [meow-mtl], but focused on having less ambiguity and in Scala 3. `classy-optics` can narrow MTL type classes with classy optics. Optic instances are automatically generated, but It does not support identical optics because we do not need regenerate existing MTL instances. Also, It gives compilation error on ambiguous data type as possible.
+`classy-optics` has the same goal with [meow-mtl], but focused on having less ambiguity in Scala 3. `classy-optics` can narrow MTL type classes with classy optics, Optic instances are automatically generated. It does not support identical optics because we do not need regenerate existing MTL instances. Also, It gives compilation error on ambiguous data type as possible.
 
 ### Product Examples
 
@@ -112,8 +112,13 @@ summon[Prism[AppError, HttpError]]
 
 summon[Review[AppError, AppError.AnotherAppError]]
 summon[Prism[AppError, AppError.AnotherAppError]]
-```
 
+summon[Review[AppError, Int]] // error
+summon[Review[AppError, String]] // error
+summon[Prism[AppError, Int]] // error
+summon[Prism[AppError, String]] // error
+```
+n
 `classy-optics` does not traverse all hierarchical tree. It looks for only first level, and root level for sum types. So data hierarchy should be kept along with application hierarchy:
 
 ```scala
@@ -177,7 +182,7 @@ yield ...
 ```
 
 `Ref` could not have `Stateful` instance because `Stateful` is not atomic, see https://github.com/typelevel/cats-mtl/pull/120.
-Instead, we can use `Ref` directly like the other MTL typeclasses.
+Instead, we can use `Ref` directly like the other MTL type classes.
 
 ```scala
 import classy.effect.*
@@ -197,4 +202,4 @@ MIT
 [cats-effect]: https://github.com/typelevel/cats-effect
 [cats-mtl]: https://github.com/typelevel/cats-mtl
 [meow-mtl]: https://github.com/oleg-py/meow-mtl
-
+[mtl-talk]: https://www.youtube.com/watch?v=GZPup5Iuaqw
