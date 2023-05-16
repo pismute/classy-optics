@@ -8,8 +8,8 @@ It provides the similar functionality with [meow-mtl], but limited magics in Sca
 Available for Scala JVM, Scalajs and Scala Native:
 
 ```scala
-libraryDependencies += "pismute" %% "classy-mtl" % "0.1.0"
-libraryDependencies += "pismute" %% "classy-effect" % "0.1.0"
+libraryDependencies += "io.github.pismute" %% "classy-mtl" % "0.1.0"
+libraryDependencies += "io.github.pismute" %% "classy-effect" % "0.1.0"
 ```
 
 Inspired by [Next-level MTL talk][mtl-talk] and [meow-mtl]

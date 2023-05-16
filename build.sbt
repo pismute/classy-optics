@@ -7,7 +7,7 @@ name := "classy-optics"
 
 ThisBuild / tlBaseVersion := "0.1"
 
-ThisBuild / organization := "pismute"
+ThisBuild / organization := "io.github.pismute"
 ThisBuild / organizationName := "pismute"
 ThisBuild / startYear := Some(2023)
 ThisBuild / licenses := Seq(License.MIT)
