@@ -176,7 +176,7 @@ given [F[_]](using Ask[F, AppEnv]): Ask[F, HttpEnv] = deriveAsk
 
 for
    ref <- Ref.of[AppT, AppEnv](AppEnv(...))
-   given Ask[Appt, Data] = ref.ask
+   given Ask[Appt, AppEnv] = ref.ask
 yield ... 
 
 ```

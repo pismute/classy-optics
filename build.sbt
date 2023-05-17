@@ -1,21 +1,33 @@
 import _root_.io.github.davidgregory084.ScalaVersion.*
 import _root_.io.github.davidgregory084.ScalacOption
+import org.typelevel.sbt.gha.JavaSpec.Distribution.Temurin
+import org.typelevel.sbt.gha.RefPredicate
+import sbtcrossproject.CrossProject
+import sbtcrossproject.CrossType
+import sbtcrossproject.Platform
 
 import scala.Ordering.Implicits.*
 
 name := "classy-optics"
 
-ThisBuild / tlBaseVersion := "0.1"
-
 ThisBuild / organization := "io.github.pismute"
 ThisBuild / organizationName := "pismute"
 ThisBuild / startYear := Some(2023)
 ThisBuild / licenses := Seq(License.MIT)
+ThisBuild / developers := List(
+  Developer(
+    "pismute",
+    "Changwoo Park",
+    "pismute@gmail.com",
+    url("https://github.com/pismute")
+  )
+)
 
 val Scala3 = "3.2.2"
 
 ThisBuild / crossScalaVersions := Seq(Scala3)
 ThisBuild / scalaVersion := Scala3 // the default Scala
+ThisBuild / versionScheme := Some("early-semver")
 
 def fixScalcOptions(opts: Set[ScalacOption]): Set[ScalacOption] = {
   opts.map { opt =>
@@ -30,11 +42,16 @@ val devScalacOptions = Set(
 
 ThisBuild / testFrameworks += new TestFramework("munit.Framework")
 
-val mtl = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+def myCrossProject(name: String): CrossProject =
+  CrossProject(name, file(name.replace("classy-", "")))(JVMPlatform, JSPlatform, NativePlatform)
+    .crossType(CrossType.Full)
+    .settings(
+      tpolecatScalacOptions ~= fixScalcOptions,
+      tpolecatDevModeOptions ++= devScalacOptions
+    )
+
+val mtl = myCrossProject("classy-mtl")
   .settings(
-    name := "classy-mtl",
-    tpolecatScalacOptions ~= fixScalcOptions,
-    tpolecatDevModeOptions ++= devScalacOptions,
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-mtl" % "1.3.1",
       "org.scalameta" %% "munit" % "1.0.0-M7" % Test,
@@ -46,12 +63,9 @@ val mtl = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     )
   )
 
-val effect = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+val effect = myCrossProject("classy-effect")
   .dependsOn(mtl % s"$Compile->$Compile;$Test->$Test")
   .settings(
-    name := "classy-effect",
-    tpolecatScalacOptions ~= fixScalcOptions,
-    tpolecatDevModeOptions ++= devScalacOptions,
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-effect" % "3.4.10",
       "org.typelevel" %% "cats-effect-testkit" % "3.4.10" % Test,
@@ -60,18 +74,44 @@ val effect = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     )
   )
 
-val root = tlCrossRootProject
-  .aggregate(mtl, effect)
+val root = project
+  .enablePlugins(NoPublishPlugin)
+  .aggregate(mtl.jvm, mtl.js, mtl.native, effect.jvm, effect.js, effect.native)
 
-ThisBuild / tlCiMimaBinaryIssueCheck := false
+// ThisBuild / tlCiMimaBinaryIssueCheck := false
 
-ThisBuild / tlCiDocCheck := false
+// ThisBuild / tlCiDocCheck := false
 
-ThisBuild / githubWorkflowPublishTargetBranches := Seq() // disable publish
+ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
 
-ThisBuild / githubWorkflowIncludeClean := false // publish disabled, clean is unnecessary
+ThisBuild / sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+
+ThisBuild / githubWorkflowPublishTargetBranches := Seq(
+  RefPredicate.Equals(Ref.Branch("master")),
+  RefPredicate.StartsWith(Ref.Tag("v"))
+)
+
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Run(
+    List("sbt ci-release"),
+    name = Some("Publish JARs"),
+    env = Map(
+      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}",
+      "CI_SONATYPE_RELEASE" -> "; sonatypePrepare; sonatypeBundleUpload"
+    )
+  )
+)
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "11"))
+ThisBuild / githubWorkflowBuild := Seq(
+  WorkflowStep.Sbt(List("validate"), name = Some("Build project"))
+)
 
 ThisBuild / githubWorkflowTargetBranches := Seq("master")
+
+ThisBuild / githubWorkflowTargetTags := Seq("v*")
 
 val scalaSteward = "pismute-steward[bot]"
 
@@ -91,3 +131,25 @@ ThisBuild / mergifyPrRules += {
     List(MergifyAction.Label(List("dependency-update")))
   )
 }
+
+def addCommandsAlias(name: String, cmds: Seq[String]) =
+  addCommandAlias(name, cmds.mkString(";", ";", ""))
+
+addCommandsAlias(
+  "validate",
+  Seq(
+    "clean",
+    "scalafmtSbtCheck",
+    "test",
+    "package",
+    "packageSrc"
+  )
+)
+
+addCommandsAlias(
+  "fmt",
+  Seq(
+    "scalafmtAll",
+    "scalafmtSbt"
+  )
+)
