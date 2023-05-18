@@ -69,8 +69,8 @@ val effect = myCrossProject("classy-effect")
   .dependsOn(mtl % s"$Compile->$Compile;$Test->$Test")
   .settings(
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "cats-effect" % "3.4.10",
-      "org.typelevel" %% "cats-effect-testkit" % "3.4.10" % Test,
+      "org.typelevel" %% "cats-effect" % "3.4.11",
+      "org.typelevel" %% "cats-effect-testkit" % "3.4.11" % Test,
       "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
       "org.typelevel" %% "scalacheck-effect-munit" % "2.0-9366e44" % Test
     )
