@@ -32,4 +32,18 @@ class RaiseSpec extends SumBaseSuite with classy.SumData:
     }
   )
 
+  test("contravariant test on a union type") {
+    trait DbError
+
+    trait HttpError
+
+    type AppError = DbError | HttpError
+
+    type MM[A] = Either[AppError, A]
+
+    summon[Raise[MM, DbError]]
+
+    summon[Raise[MM, HttpError]]
+  }
+
 end RaiseSpec

@@ -33,4 +33,24 @@ class TellSpec extends SumBaseSuite with classy.SumData:
       TellTests[MM, MiniInt](summon).tell[MiniInt]
     }
   )
+
+  test("contravariant test on a union type") {
+    trait DbError
+
+    trait HttpError
+
+    type AppError = DbError | HttpError
+
+    type MM[A] = State[AppError, A]
+
+    given Tell[MM, AppError] with
+      def functor: Functor[MM] = summon
+
+      def tell(l: AppError): MM[Unit] = State.set(l)
+
+    summon[Tell[MM, DbError]]
+
+    summon[Tell[MM, HttpError]]
+  }
+
 end TellSpec
