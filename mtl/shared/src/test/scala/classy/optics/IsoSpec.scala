@@ -1,6 +1,5 @@
 package classy.optics
 
-// stolen from meow-mtl
 class IsoSpec extends classy.BaseSuite:
   case class DbConfig(address: String, port: Int)
   case class HttpConfig(port: Int)

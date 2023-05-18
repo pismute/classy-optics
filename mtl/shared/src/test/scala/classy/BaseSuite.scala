@@ -3,7 +3,12 @@ package classy
 import scala.compiletime.*
 import scala.concurrent.Future
 
-import cats.{~>, Comonad, Eval, Functor, Id}
+import cats.~>
+import cats.Comonad
+import cats.Eval
+import cats.Functor
+import cats.Id
+import cats.arrow.FunctionK
 import cats.syntax.functor.*
 
 import org.scalacheck.Gen
@@ -24,6 +29,9 @@ trait BaseSuite extends DisciplineFSuite with AssertionsF with ScalacheckGens:
       "cats.Eval",
       matchable { case e: Eval[?] => Future(e.value)(munitExecutionContext) }
     )
+
+  val evalToIdK: ~>[Eval, Id] = FunctionK.lift[Eval, Id]([a] => (fa: Eval[a]) => fa.value)
+  val idToEvalK: ~>[Id, Eval] = FunctionK.lift[Id, Eval]([a] => (fa: Id[a]) => Eval.later(fa))
 
 end BaseSuite
 

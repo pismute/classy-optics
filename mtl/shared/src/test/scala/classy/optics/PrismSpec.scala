@@ -1,6 +1,5 @@
 package classy.optics
 
-// stolen from meow-mtl
 class PrismSpec extends classy.BaseSuite:
   enum AppError:
     case HttpMsgError(port: Int, msg: String) extends AppError

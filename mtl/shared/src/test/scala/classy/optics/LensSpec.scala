@@ -1,6 +1,5 @@
 package classy.optics
 
-// stolen from meow-mtl
 class LensSpec extends classy.BaseSuite:
   case class HttpConfig(port: Int)
   case class AppConfig(name: String, httpConfig: HttpConfig)

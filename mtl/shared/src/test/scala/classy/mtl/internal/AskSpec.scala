@@ -1,16 +1,17 @@
 package classy.mtl.internal
 
-import cats.{~>, Eq, Id}
+import cats.Eq
+import cats.Eval
 import cats.arrow.FunctionK
 import cats.data.Reader
+import cats.data.ReaderT
 import cats.laws.discipline.*
 import cats.laws.discipline.arbitrary.*
 import cats.mtl.Ask
 import cats.mtl.laws.discipline.*
-
-import org.scalacheck.Arbitrary
-
+import cats.~>
 import classy.mtl.*
+import org.scalacheck.Arbitrary
 
 class AskSpec extends ProductBaseSuite with classy.ProductData:
   type M[A] = Reader[Data, A]
@@ -23,12 +24,44 @@ class AskSpec extends ProductBaseSuite with classy.ProductData:
 
   checkAll(
     "Ask.mapK", {
-      type F[A] = Data => A
-      val fk: ~>[M, F] = FunctionK.lift([a] => (ma: M[a]) => ma.run)
-      given Ask[F, MiniInt] = summon[Ask[M, MiniInt]].mapK(fk)
+      type MM[A] = ReaderT[Eval, Data, A]
+      val fk: ~>[M, MM] = FunctionK.lift([a] => (fa: M[a]) => fa.mapK(idToEvalK))
+      given Ask[MM, MiniInt] = summon[Ask[M, MiniInt]].mapK(fk)
 
-      AskTests[F, MiniInt](summon).ask[MiniInt]
+      AskTests[MM, MiniInt](summon).ask[MiniInt]
     }
   )
+
+  test("covariant test on a cake") {
+    trait HasInt:
+      def int: Int
+
+    trait HasString:
+      def string: String
+
+    class Config(val int: Int, val string: String) extends HasInt with HasString
+
+    type MM[A] = Reader[Config, A]
+
+    summon[Ask[MM, HasInt]]
+
+    summon[Ask[MM, HasString]]
+  }
+
+  test("covariant test on a intersection type") {
+    trait HasInt:
+      def int: Int
+
+    trait HasString:
+      def string: String
+
+    type Config = HasInt & HasString
+
+    type MM[A] = Reader[Config, A]
+
+    summon[Ask[MM, HasInt]]
+
+    summon[Ask[MM, HasString]]
+  }
 
 end AskSpec
