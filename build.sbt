@@ -14,6 +14,7 @@ name := "classy-optics"
 ThisBuild / organization := "io.github.pismute"
 ThisBuild / organizationName := "pismute"
 ThisBuild / startYear := Some(2023)
+ThisBuild / homepage := Some(url("https://github.com/pismute/classy-optics"))
 ThisBuild / licenses := Seq(License.MIT)
 ThisBuild / developers := List(
   Developer(
