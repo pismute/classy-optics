@@ -1,10 +1,10 @@
 package classy.optics
 
-import Macros.*
-
 import scala.compiletime.*
 import scala.deriving.*
 import scala.quoted.*
+
+import Macros.*
 
 private[classy] object ProductMacros:
   private def indexOf[T: Type, A: Type](using Quotes): Int =
@@ -62,15 +62,12 @@ private[classy] object ProductMacros:
 
     Expr
       .summon[Mirror.ProductOf[T]]
-      .flatMap { case '{ $m: Mirror.ProductOf[T] { type MirroredElemTypes = elementTypes } } =>
-        Expr
-          .summon[Tuple1[A] =:= elementTypes]
-          .map { _ =>
-            val view: Expr[T => A] = '{ t => t.productElement(0).asInstanceOf[A] }
-            val review: Expr[A => T] = '{ a => $m.fromTuple(Tuple1(a).asInstanceOf[elementTypes]) }
-            '{ Iso[T, A]($view)($review) }
-          }
-          .orElse(report.errorAndAbort(s"${showCaseClass[T]} must have a field of ${Type.show[A]}"))
+      .map { case '{ $m: Mirror.ProductOf[T] { type MirroredElemTypes = elementTypes } } =>
+        if TypeRepr.of[Tuple1[A]].=:=(TypeRepr.of[elementTypes]) then
+          val view: Expr[T => A] = '{ t => t.productElement(0).asInstanceOf[A] }
+          val review: Expr[A => T] = '{ a => $m.fromTuple(Tuple1(a).asInstanceOf[elementTypes]) }
+          '{ Iso[T, A]($view)($review) }
+        else report.errorAndAbort(s"${showCaseClass[T]} must have a field of ${Type.show[A]}")
       }
       .getOrElse(report.errorAndAbort(s"${Type.show[T]} is not a case class"))
 
