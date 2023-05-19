@@ -1,5 +1,7 @@
 package classy.optics
 
+import Macros.*
+
 import scala.compiletime.*
 import scala.deriving.*
 import scala.quoted.*
@@ -36,6 +38,8 @@ private[classy] object ProductMacros:
   def genGetter[T <: Product: Type, A: Type](using q: Quotes): Expr[Getter[T, A]] =
     import quotes.reflect.*
 
+    assertNonIdenticalType[T, A]
+
     Expr
       .summon[Mirror.ProductOf[T]]
       .map { case '{ $m: Mirror.ProductOf[T] { type MirroredElemTypes = elementTypes } } =>
@@ -53,6 +57,8 @@ private[classy] object ProductMacros:
 
   def genIso[T <: Product: Type, A: Type](using q: Quotes): Expr[Iso[T, A]] =
     import quotes.reflect.*
+
+    assertNonIdenticalType[T, A]
 
     Expr
       .summon[Mirror.ProductOf[T]]
@@ -72,6 +78,8 @@ private[classy] object ProductMacros:
 
   def genLens[T <: Product: Type, A: Type](using q: Quotes): Expr[Lens[T, A]] =
     import quotes.reflect.*
+
+    assertNonIdenticalType[T, A]
 
     Expr
       .summon[Mirror.ProductOf[T]]

@@ -49,9 +49,26 @@ class PrismSpec extends classy.BaseSuite:
     assertEquals(iso2.composePrism(prism2).review(2), error2)
   }
 
+  test("defived for union type") {
+    case class DbError(int: Int)
+    case class HttpError(string: String)
+    case class NetError(double: Double)
+    case class CalcError(float: Float)
+
+    type AppError = DbError | HttpError | NetError | CalcError
+
+    val a: AppError = DbError(1)
+
+    summon[Prism[AppError, DbError]]
+    summon[Prism[AppError, HttpError]]
+    summon[Prism[AppError, NetError]]
+    summon[Prism[AppError, CalcError]]
+  }
+
   // test("should fail to compile") {
   //   case class NoConfig()
   //   summon[Prism[NoConfig, Int]]
+  //   summon[Prism[NoConfig, NoConfig]]
   // }
 
 end PrismSpec
