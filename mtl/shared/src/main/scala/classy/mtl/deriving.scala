@@ -1,10 +1,14 @@
 package classy.mtl
 
-import cats.{Applicative, Functor, Monad}
+import cats.Applicative
+import cats.Functor
+import cats.Monad
 import cats.mtl.*
-
 import classy.mtl.internal.*
-import classy.optics.{Getter, Lens, Prism, Review}
+import classy.optics.Getter
+import classy.optics.Lens
+import classy.optics.Prism
+import classy.optics.Review
 
 trait deriving:
 
@@ -19,7 +23,7 @@ trait deriving:
   def deriveRaise[F[_], A, B: PinInvariant](using parent: Raise[F, A], review: Review[A, B]): Raise[F, B] =
     ReviewRaise(parent, review)
 
-  def deriveHandle[F[_], A <: Matchable, B](using parent: Handle[F, A], prism: Prism[A, B]): Handle[F, B] =
+  def deriveHandle[F[_], A, B](using parent: Handle[F, A], prism: Prism[A, B]): Handle[F, B] =
     PrismHandle(parent, prism)
 
   def deriveTell[F[_], A, B: PinInvariant](using parent: Tell[F, A], review: Review[A, B]): Tell[F, B] =

@@ -52,5 +52,5 @@ private[classy] object Prism:
   inline def fromPF[S, A](_preview: => PartialFunction[S, A])(_review: A => S): Prism[S, A] =
     apply[S, A](_preview.lift)(_review)
 
-  inline given derived[S <: Matchable, A]: Prism[S, A] = ${ SumMacros.genPrism[S, A] }
+  inline given derived[S, A]: Prism[S, A] = ${ SumMacros.genPrism[S, A] }
 end Prism
