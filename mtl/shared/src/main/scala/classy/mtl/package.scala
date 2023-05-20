@@ -1,10 +1,17 @@
 package classy
 
+import cats.mtl.Ask
+import cats.mtl.Handle
+import cats.mtl.Local
+import cats.mtl.Raise
+import cats.mtl.Stateful
+import cats.mtl.Tell
+import classy.optics.Getter
+import classy.optics.Lens
+import classy.optics.Prism
+import classy.optics.Review
+
 import scala.util.NotGiven
-
-import cats.mtl.{Ask, Handle, Local, Raise, Stateful, Tell}
-
-import classy.optics.{Getter, Lens, Prism, Review}
 
 // package object is deprecated, but export on packages has a bug
 // https://github.com/lampepfl/dotty/issues/17201
@@ -38,7 +45,7 @@ package object mtl extends deriving with syntax:
     ): Raise[F, B] =
       deriveRaise
 
-    given [F[_], A <: Matchable, B](using
+    given [F[_], A, B](using
         NotGiven[Handle[F, B]],
         Handle[F, A],
         Prism[A, B]

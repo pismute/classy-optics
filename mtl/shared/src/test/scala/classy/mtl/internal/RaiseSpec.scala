@@ -1,6 +1,8 @@
 package classy.mtl.internal
 
-import cats.{~>, Id}
+import cats.~>
+import cats.Eval
+import cats.Id
 import cats.arrow.FunctionK
 import cats.data.EitherT
 import cats.laws.discipline.*
@@ -12,7 +14,7 @@ import classy.mtl.*
 
 class RaiseSpec extends SumBaseSuite with classy.SumData:
 
-  type M[A] = Either[Data, A]
+  type M[A] = EitherT[Id, Data, A]
   given [F[_]](using Raise[F, Data]): Raise[F, MiniInt] = deriveRaise
 
   checkAll(
@@ -22,12 +24,26 @@ class RaiseSpec extends SumBaseSuite with classy.SumData:
 
   checkAll(
     "Raise.mapK", {
-      type F[A] = EitherT[Id, Data, A]
-      val fk: ~>[M, F] = FunctionK.lift([a] => (ma: M[a]) => EitherT.fromEither[Id](ma))
-      given Raise[F, MiniInt] = summon[Raise[M, MiniInt]].mapK(fk)
+      type MM[A] = EitherT[Eval, Data, A]
+      val fk: ~>[M, MM] = FunctionK.lift([a] => (fa: M[a]) => fa.mapK(idToEvalK))
+      given Raise[MM, MiniInt] = summon[Raise[M, MiniInt]].mapK(fk)
 
-      RaiseTests[F, MiniInt](summon).raise[MiniInt]
+      RaiseTests[MM, MiniInt](summon).raise[MiniInt]
     }
   )
+
+  test("contravariant test on a union type") {
+    trait DbError
+
+    trait HttpError
+
+    type AppError = DbError | HttpError
+
+    type MM[A] = Either[AppError, A]
+
+    summon[Raise[MM, DbError]]
+
+    summon[Raise[MM, HttpError]]
+  }
 
 end RaiseSpec

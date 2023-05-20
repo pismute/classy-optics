@@ -1,6 +1,5 @@
 package classy.optics
 
-// stolen from meow-mtl
 class GetterSpec extends classy.BaseSuite:
   case class HttpConfig(port: Int, address: String)
 

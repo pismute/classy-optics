@@ -1,8 +1,9 @@
 package classy.mtl.internal
 
-import cats.{~>, Id}
+import cats.{Eval, Id}
+import cats.~>
 import cats.arrow.FunctionK
-import cats.data.{State, StateT}
+import cats.data.StateT
 import cats.derived.derived
 import cats.laws.discipline.*
 import cats.laws.discipline.arbitrary.*
@@ -15,7 +16,7 @@ import classy.BaseSuite
 import classy.mtl.*
 
 class StatefulSpec extends ProductBaseSuite with classy.ProductData:
-  type M[A] = State[Data, A]
+  type M[A] = StateT[Id, Data, A]
   given [F[_]](using Stateful[F, Data]): Stateful[F, MiniInt] = deriveStateful
 
   checkAll(
@@ -26,11 +27,11 @@ class StatefulSpec extends ProductBaseSuite with classy.ProductData:
   val statefulOfMAndMiniInt = summon[Stateful[M, MiniInt]]
   checkAll(
     "Stateful.mapK", {
-      type F[A] = StateT[Id, Data, A]
-      val fk: ~>[M, F] = FunctionK.lift([a] => (ma: M[a]) => StateT.fromState[Id, Data, a](ma))
-      given Stateful[F, MiniInt] = statefulOfMAndMiniInt.mapK(fk)
+      type MM[A] = StateT[Eval, Data, A]
+      val fk: ~>[M, MM] = FunctionK.lift([a] => (fa: M[a]) => fa.mapK(idToEvalK))
+      given Stateful[MM, MiniInt] = statefulOfMAndMiniInt.mapK(fk)
 
-      StatefulTests[F, MiniInt](summon).stateful
+      StatefulTests[MM, MiniInt](summon).stateful
     }
   )
 
