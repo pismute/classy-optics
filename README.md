@@ -265,7 +265,7 @@ type AppError = DbError | HttpError
 summon[Raise[F, DbError]] // works if Raise[F, AppError] exists
 
 // works because Prism[AppError, DbError] is derived automatically
-given [F[_]](using Handle[F, AppError]): Raise[F, DbError] = deriveHandle
+given [F[_]](using Handle[F, AppError]): Handle[F, DbError] = deriveHandle
 ```
 
 Ok, it looks simpler than `enum AppError`. But, yet, it is not. There are no instances for essential type classes like `Eq`, `Show` and so on. The instances need to be provided manually.
