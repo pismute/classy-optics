@@ -2,6 +2,7 @@ package classy.mtl.internal
 
 import cats.Applicative
 import cats.mtl.Handle
+
 import classy.optics.Prism
 
 private[classy] class PrismHandle[F[_], A, B](parent: Handle[F, A], prism: Prism[A, B])

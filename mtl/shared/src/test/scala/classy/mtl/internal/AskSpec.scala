@@ -1,5 +1,6 @@
 package classy.mtl.internal
 
+import cats.~>
 import cats.Eq
 import cats.Eval
 import cats.arrow.FunctionK
@@ -9,9 +10,10 @@ import cats.laws.discipline.*
 import cats.laws.discipline.arbitrary.*
 import cats.mtl.Ask
 import cats.mtl.laws.discipline.*
-import cats.~>
-import classy.mtl.*
+
 import org.scalacheck.Arbitrary
+
+import classy.mtl.*
 
 class AskSpec extends ProductBaseSuite with classy.ProductData:
   type M[A] = Reader[Data, A]

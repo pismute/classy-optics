@@ -4,6 +4,7 @@ import cats.Applicative
 import cats.Functor
 import cats.Monad
 import cats.mtl.*
+
 import classy.mtl.internal.*
 import classy.optics.Getter
 import classy.optics.Lens

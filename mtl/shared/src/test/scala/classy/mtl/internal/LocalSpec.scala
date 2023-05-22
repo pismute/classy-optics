@@ -1,5 +1,6 @@
 package classy.mtl.internal
 
+import cats.~>
 import cats.Eval
 import cats.arrow.FunctionK
 import cats.data.Reader
@@ -9,9 +10,10 @@ import cats.laws.discipline.arbitrary.*
 import cats.laws.discipline.eq.*
 import cats.mtl.Local
 import cats.mtl.laws.discipline.*
-import cats.~>
-import classy.mtl.*
+
 import org.scalacheck.Arbitrary
+
+import classy.mtl.*
 
 class LocalSpec extends ProductBaseSuite with classy.ProductData:
   type M[A] = Reader[Data, A]

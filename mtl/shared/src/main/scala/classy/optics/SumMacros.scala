@@ -1,10 +1,10 @@
 package classy.optics
 
-import Macros.*
-
 import scala.compiletime.*
 import scala.deriving.*
 import scala.quoted.*
+
+import Macros.*
 private[classy] object SumMacros:
   private type PrismOr[T, A] = Either[String, Expr[Prism[T, A]]]
   private type ReviewOr[T, A] = Either[String, Expr[Review[T, A]]]
