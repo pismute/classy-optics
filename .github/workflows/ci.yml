@@ -69,8 +69,16 @@ jobs:
       - name: Check that workflows are up to date
         run: sbt githubWorkflowCheck
 
-      - name: Build project
-        run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }}' validate
+      - name: scalaJSLink
+        if: matrix.project == 'rootJS'
+        run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }}' Test/scalaJSLinkerResult
+
+      - name: nativeLink
+        if: matrix.project == 'rootNative'
+        run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }}' Test/nativeLink
+
+      - name: Test
+        run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }}' test
 
       - name: Make target directories
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))

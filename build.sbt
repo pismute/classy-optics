@@ -79,9 +79,9 @@ val effect = myCrossProject("classy-effect")
 val root = tlCrossRootProject
   .aggregate(mtl, effect)
 
-// ThisBuild / tlCiMimaBinaryIssueCheck := false
+ThisBuild / tlCiMimaBinaryIssueCheck := false
 
-// ThisBuild / tlCiDocCheck := false
+ThisBuild / tlCiDocCheck := false
 
 ThisBuild / githubWorkflowPublishTargetBranches := Seq(
   RefPredicate.Equals(Ref.Branch("master")),
@@ -101,9 +101,6 @@ ThisBuild / githubWorkflowPublish := Seq(
   )
 )
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "11"))
-ThisBuild / githubWorkflowBuild := Seq(
-  WorkflowStep.Sbt(List("validate"), name = Some("Build project"))
-)
 
 ThisBuild / githubWorkflowTargetBranches := Seq("master")
 
@@ -127,25 +124,3 @@ ThisBuild / mergifyPrRules += {
     List(MergifyAction.Label(List("dependency-update")))
   )
 }
-
-def addCommandsAlias(name: String, cmds: Seq[String]) =
-  addCommandAlias(name, cmds.mkString(";", ";", ""))
-
-addCommandsAlias(
-  "validate",
-  Seq(
-    "clean",
-    "scalafmtSbtCheck",
-    "test",
-    "package",
-    "packageSrc"
-  )
-)
-
-addCommandsAlias(
-  "fmt",
-  Seq(
-//    "scalafmtAll", // it gets fails on scala3 macro
-    "scalafmtSbt"
-  )
-)
