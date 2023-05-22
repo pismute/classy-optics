@@ -1,13 +1,12 @@
-import scala.Ordering.Implicits.*
-
+import _root_.io.github.davidgregory084.ScalaVersion.*
+import _root_.io.github.davidgregory084.ScalacOption
 import org.typelevel.sbt.gha.JavaSpec.Distribution.Temurin
 import org.typelevel.sbt.gha.RefPredicate
-
-import _root_.io.github.davidgregory084.ScalacOption
-import _root_.io.github.davidgregory084.ScalaVersion.*
 import sbtcrossproject.CrossProject
 import sbtcrossproject.CrossType
 import sbtcrossproject.Platform
+
+import scala.Ordering.Implicits.*
 
 name := "classy-optics"
 
@@ -80,8 +79,6 @@ val effect = myCrossProject("classy-effect")
 val root = tlCrossRootProject
   .aggregate(mtl, effect)
 
-ThisBuild / tlCiMimaBinaryIssueCheck := false
-
 ThisBuild / tlCiDocCheck := false
 
 ThisBuild / tlCiScalafmtCheck := true
@@ -91,18 +88,6 @@ ThisBuild / githubWorkflowPublishTargetBranches := Seq(
   RefPredicate.StartsWith(Ref.Tag("v"))
 )
 
-ThisBuild / githubWorkflowPublish := Seq(
-  WorkflowStep.Run(
-    List("sbt ci-release"),
-    name = Some("Publish JARs"),
-    env = Map(
-      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
-      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
-      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
-      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
-    )
-  )
-)
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "11"))
 
 ThisBuild / githubWorkflowTargetBranches := Seq("master")
