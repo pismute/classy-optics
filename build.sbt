@@ -1,16 +1,16 @@
-import scala.Ordering.Implicits.*
-
+import _root_.io.github.davidgregory084.ScalaVersion.*
+import _root_.io.github.davidgregory084.ScalacOption
 import org.typelevel.sbt.gha.JavaSpec.Distribution.Temurin
 import org.typelevel.sbt.gha.RefPredicate
-
-import _root_.io.github.davidgregory084.ScalacOption
-import _root_.io.github.davidgregory084.ScalaVersion.*
 import sbtcrossproject.CrossProject
 import sbtcrossproject.CrossType
 import sbtcrossproject.Platform
 
+import scala.Ordering.Implicits.*
+
 name := "classy-optics"
 
+ThisBuild / tlBaseVersion := "0.2"
 ThisBuild / organization := "io.github.pismute"
 ThisBuild / organizationName := "pismute"
 ThisBuild / startYear := Some(2023)
@@ -76,17 +76,12 @@ val effect = myCrossProject("classy-effect")
     )
   )
 
-val root = project
-  .enablePlugins(NoPublishPlugin)
-  .aggregate(mtl.jvm, mtl.js, mtl.native, effect.jvm, effect.js, effect.native)
+val root = tlCrossRootProject
+  .aggregate(mtl, effect)
 
-// ThisBuild / tlCiMimaBinaryIssueCheck := false
+ThisBuild / tlCiMimaBinaryIssueCheck := false
 
-// ThisBuild / tlCiDocCheck := false
-
-ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
-
-ThisBuild / sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+ThisBuild / tlCiDocCheck := false
 
 ThisBuild / githubWorkflowPublishTargetBranches := Seq(
   RefPredicate.Equals(Ref.Branch("master")),
@@ -106,9 +101,6 @@ ThisBuild / githubWorkflowPublish := Seq(
   )
 )
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec(Temurin, "11"))
-ThisBuild / githubWorkflowBuild := Seq(
-  WorkflowStep.Sbt(List("validate"), name = Some("Build project"))
-)
 
 ThisBuild / githubWorkflowTargetBranches := Seq("master")
 
@@ -132,25 +124,3 @@ ThisBuild / mergifyPrRules += {
     List(MergifyAction.Label(List("dependency-update")))
   )
 }
-
-def addCommandsAlias(name: String, cmds: Seq[String]) =
-  addCommandAlias(name, cmds.mkString(";", ";", ""))
-
-addCommandsAlias(
-  "validate",
-  Seq(
-    "clean",
-    "scalafmtSbtCheck",
-    "test",
-    "package",
-    "packageSrc"
-  )
-)
-
-addCommandsAlias(
-  "fmt",
-  Seq(
-//    "scalafmtAll", // it gets fails on scala3 macro
-    "scalafmtSbt"
-  )
-)
