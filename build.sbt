@@ -26,7 +26,7 @@ ThisBuild / developers := List(
   )
 )
 
-val Scala3 = "3.2.2"
+val Scala3 = "3.3.0"
 
 ThisBuild / crossScalaVersions := Seq(Scala3)
 ThisBuild / scalaVersion := Scala3 // the default Scala
