@@ -10,18 +10,17 @@ import classy.mtl.*
 
 trait syntax:
 
-  extension [A](parent: IOLocal[A])
-    def ask: Ask[IO, A] = IOLocalAsk(parent)
+  extension [A](parent: IOLocal[A]) def ask: Ask[IO, A] = IOLocalAsk(parent)
 
-    def askK[F[_]: LiftIO: Applicative]: Ask[F, A] = ask.mapK[F](LiftIO.liftK)
+  def askK[F[_]: LiftIO: Applicative]: Ask[F, A] = ask.mapK[F](LiftIO.liftK)
 
-    def stateful: Stateful[IO, A] = IOLocalStateful(parent)
+  def stateful: Stateful[IO, A] = IOLocalStateful(parent)
 
-    def statefulK[F[_]: LiftIO: Monad]: Stateful[F, A] = stateful.mapK[F](LiftIO.liftK)
+  def statefulK[F[_]: LiftIO: Monad]: Stateful[F, A] = stateful.mapK[F](LiftIO.liftK)
 
-    def tell: Tell[IO, A] = IOLocalTell(parent)
+  def tell: Tell[IO, A] = IOLocalTell(parent)
 
-    def tellK[F[_]: LiftIO: Functor]: Tell[F, A] = tell.mapK[F](LiftIO.liftK)
+  def tellK[F[_]: LiftIO: Functor]: Tell[F, A] = tell.mapK[F](LiftIO.liftK)
 
   extension [F[_], A](parent: Ref[F, A])
     def ask(using Applicative[F]): Ask[F, A] = RefAsk(parent)
