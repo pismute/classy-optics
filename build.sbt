@@ -59,7 +59,7 @@ val mtl = myCrossProject("classy-mtl")
       "org.typelevel" %% "cats-mtl" % "1.3.1",
       "org.scalameta" %% "munit" % "1.0.0-M8" % Test,
       "org.scalameta" %% "munit-scalacheck" % "1.0.0-M8" % Test,
-      "org.typelevel" %% "cats-laws" % "2.9.0" % Test,
+      "org.typelevel" %% "cats-laws" % "2.10.0" % Test,
       "org.typelevel" %% "cats-mtl-laws" % "1.3.1" % Test,
       "org.typelevel" %% "discipline-munit" % "1.0.9" % Test,
       "org.typelevel" %% "kittens" % "3.0.0" % Test
