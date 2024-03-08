@@ -26,7 +26,7 @@ ThisBuild / developers := List(
   )
 )
 
-val Scala3 = "3.2.2"
+val Scala3 = "3.4.0"
 
 ThisBuild / crossScalaVersions := Seq(Scala3)
 ThisBuild / scalaVersion := Scala3 // the default Scala
@@ -46,7 +46,7 @@ val devScalacOptions = Set(
 ThisBuild / testFrameworks += new TestFramework("munit.Framework")
 
 def myCrossProject(name: String): CrossProject =
-  CrossProject(name, file(name.replace("classy-", "")))(JVMPlatform, JSPlatform, NativePlatform)
+  CrossProject(name, file(name.replace("classy-", "")))(JVMPlatform, JSPlatform)
     .crossType(CrossType.Full)
     .settings(
       tpolecatScalacOptions ~= fixScalcOptions,
@@ -56,13 +56,13 @@ def myCrossProject(name: String): CrossProject =
 val mtl = myCrossProject("classy-mtl")
   .settings(
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "cats-mtl" % "1.3.1",
-      "org.scalameta" %% "munit" % "1.0.0-M8" % Test,
-      "org.scalameta" %% "munit-scalacheck" % "1.0.0-M8" % Test,
+      "org.typelevel" %% "cats-mtl" % "1.4.0",
+      "org.scalameta" %% "munit" % "1.0.0-M11" % Test,
+      "org.scalameta" %% "munit-scalacheck" % "1.0.0-M11" % Test,
       "org.typelevel" %% "cats-laws" % "2.10.0" % Test,
-      "org.typelevel" %% "cats-mtl-laws" % "1.3.1" % Test,
+      "org.typelevel" %% "cats-mtl-laws" % "1.4.0" % Test,
       "org.typelevel" %% "discipline-munit" % "1.0.9" % Test,
-      "org.typelevel" %% "kittens" % "3.0.0" % Test
+      "org.typelevel" %% "kittens" % "3.2.0" % Test
     )
   )
 
@@ -70,8 +70,8 @@ val effect = myCrossProject("classy-effect")
   .dependsOn(mtl % s"$Compile->$Compile;$Test->$Test")
   .settings(
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "cats-effect" % "3.5.1",
-      "org.typelevel" %% "cats-effect-testkit" % "3.5.1" % Test,
+      "org.typelevel" %% "cats-effect" % "3.5.4",
+      "org.typelevel" %% "cats-effect-testkit" % "3.5.4" % Test,
       "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
       "org.typelevel" %% "scalacheck-effect-munit" % "2.0-9366e44" % Test
     )

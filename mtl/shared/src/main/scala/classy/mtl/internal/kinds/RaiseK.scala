@@ -1,9 +1,8 @@
 package classy.mtl.internal.kinds
 
-import cats.{~>, Functor}
+import cats.~>
+import cats.Functor
 import cats.mtl.Raise
-
-import classy.optics.Review
 
 private[classy] open class RaiseK[F[_], G[_]: Functor, A](parent: Raise[F, A], fk: F ~> G) extends Raise[G, A]:
 

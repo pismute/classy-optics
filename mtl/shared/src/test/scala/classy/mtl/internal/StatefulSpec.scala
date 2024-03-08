@@ -1,18 +1,15 @@
 package classy.mtl.internal
 
-import cats.{Eval, Id}
 import cats.~>
+import cats.Eval
+import cats.Id
 import cats.arrow.FunctionK
 import cats.data.StateT
-import cats.derived.derived
 import cats.laws.discipline.*
 import cats.laws.discipline.arbitrary.*
 import cats.mtl.Stateful
 import cats.mtl.laws.discipline.*
 
-import org.scalacheck.Arbitrary
-
-import classy.BaseSuite
 import classy.mtl.*
 
 class StatefulSpec extends ProductBaseSuite with classy.ProductData:

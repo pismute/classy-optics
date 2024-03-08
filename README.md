@@ -5,7 +5,7 @@ It is built for [meow-mtl] again in Scala 3.
 
 It provides the similar functionality with [meow-mtl], but limited magics in Scala 3:
 
-Available for Scala JVM, Scalajs and Scala Native:
+Available for Scala JVM, Scalajs:
 
 ```scala
 libraryDependencies += "io.github.pismute" %% "classy-mtl" % "<version>"

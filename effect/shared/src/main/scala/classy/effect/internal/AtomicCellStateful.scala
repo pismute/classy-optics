@@ -4,8 +4,6 @@ import cats.Monad
 import cats.effect.std.AtomicCell
 import cats.mtl.Stateful
 
-import classy.optics.Lens
-
 private[classy] class AtomicCellStateful[F[_]: Monad, A](parent: AtomicCell[F, A]) extends Stateful[F, A]:
 
   val monad: Monad[F] = summon
