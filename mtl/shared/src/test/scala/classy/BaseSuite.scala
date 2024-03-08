@@ -4,7 +4,6 @@ import scala.compiletime.*
 import scala.concurrent.Future
 
 import cats.~>
-import cats.Comonad
 import cats.Eval
 import cats.Functor
 import cats.Id

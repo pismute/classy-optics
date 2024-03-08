@@ -1,10 +1,8 @@
 package classy.mtl.internal.kinds
 
-import cats.{~>, Monad}
+import cats.~>
+import cats.Monad
 import cats.mtl.Stateful
-import cats.syntax.functor.*
-
-import classy.optics.Lens
 
 private[classy] class StatefulK[F[_], G[_]: Monad, A](parent: Stateful[F, A], fk: F ~> G) extends Stateful[G, A]:
 

@@ -2,7 +2,7 @@ package classy.mtl.internal
 
 import cats.mtl.Local
 
-import classy.optics.{Getter, Lens}
+import classy.optics.Lens
 
 private[classy] class LensLocal[F[_], A, B](parent: Local[F, A], lens: Lens[A, B])
     extends GetterAsk(parent, lens)

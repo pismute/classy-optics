@@ -26,7 +26,7 @@ ThisBuild / developers := List(
   )
 )
 
-val Scala3 = "3.2.2"
+val Scala3 = "3.4.0"
 
 ThisBuild / crossScalaVersions := Seq(Scala3)
 ThisBuild / scalaVersion := Scala3 // the default Scala
@@ -46,7 +46,7 @@ val devScalacOptions = Set(
 ThisBuild / testFrameworks += new TestFramework("munit.Framework")
 
 def myCrossProject(name: String): CrossProject =
-  CrossProject(name, file(name.replace("classy-", "")))(JVMPlatform, JSPlatform, NativePlatform)
+  CrossProject(name, file(name.replace("classy-", "")))(JVMPlatform, JSPlatform)
     .crossType(CrossType.Full)
     .settings(
       tpolecatScalacOptions ~= fixScalcOptions,

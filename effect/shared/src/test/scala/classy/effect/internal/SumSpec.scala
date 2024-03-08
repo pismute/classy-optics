@@ -1,10 +1,11 @@
 package classy.effect.internal
 
-import cats.effect.{IO, IOLocal, Ref}
+import cats.effect.IO
+import cats.effect.IOLocal
+import cats.effect.Ref
 import cats.effect.std.AtomicCell
 import cats.laws.discipline.*
 import cats.laws.discipline.arbitrary.*
-import cats.laws.discipline.eq.*
 import cats.mtl.Tell
 import cats.mtl.laws.discipline.*
 

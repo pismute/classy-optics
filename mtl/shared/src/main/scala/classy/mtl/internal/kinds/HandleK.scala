@@ -1,9 +1,8 @@
 package classy.mtl.internal.kinds
 
-import cats.{~>, Applicative}
+import cats.~>
+import cats.Applicative
 import cats.mtl.Handle
-
-import classy.optics.Prism
 
 private[classy] class HandleK[F[_], G[_]: Applicative, A](parent: Handle[F, A], fk: F ~> G, gk: G ~> F)
     extends RaiseK[F, G, A](parent, fk)

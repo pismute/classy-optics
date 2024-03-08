@@ -14,7 +14,6 @@ import cats.mtl.laws.discipline.*
 import org.scalacheck.Arbitrary
 import org.scalacheck.Gen
 
-import classy.BaseSuite
 import classy.mtl.*
 
 class HandleSpec extends SumBaseSuite with classy.SumData:

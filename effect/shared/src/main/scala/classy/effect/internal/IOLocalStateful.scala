@@ -1,10 +1,9 @@
 package classy.effect.internal
 
 import cats.Monad
-import cats.effect.{IO, IOLocal, LiftIO}
+import cats.effect.IO
+import cats.effect.IOLocal
 import cats.mtl.Stateful
-
-import classy.optics.Lens
 
 private[classy] class IOLocalStateful[A](parent: IOLocal[A]) extends Stateful[IO, A]:
 

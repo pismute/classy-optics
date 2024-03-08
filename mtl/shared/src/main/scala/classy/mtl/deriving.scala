@@ -1,8 +1,5 @@
 package classy.mtl
 
-import cats.Applicative
-import cats.Functor
-import cats.Monad
 import cats.mtl.*
 
 import classy.mtl.internal.*

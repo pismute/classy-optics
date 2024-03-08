@@ -2,9 +2,8 @@ package classy
 
 import scala.util.NotGiven
 
-import cats.{~>, Functor}
+import cats.Functor
 import cats.effect.Ref
-import cats.effect.std.AtomicCell
 
 import classy.optics.Lens
 

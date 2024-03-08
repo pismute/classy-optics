@@ -1,7 +1,5 @@
 package classy.effect
 
-import scala.util.NotGiven
-
 import cats.Eq
 import cats.effect.IO
 

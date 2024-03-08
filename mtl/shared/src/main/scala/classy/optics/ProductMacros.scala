@@ -1,6 +1,5 @@
 package classy.optics
 
-import scala.compiletime.*
 import scala.deriving.*
 import scala.quoted.*
 
