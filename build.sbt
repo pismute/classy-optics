@@ -1,13 +1,12 @@
-import scala.Ordering.Implicits.*
-
+import _root_.io.github.davidgregory084.ScalaVersion.*
+import _root_.io.github.davidgregory084.ScalacOption
 import org.typelevel.sbt.gha.JavaSpec.Distribution.Temurin
 import org.typelevel.sbt.gha.RefPredicate
-
-import _root_.io.github.davidgregory084.ScalacOption
-import _root_.io.github.davidgregory084.ScalaVersion.*
 import sbtcrossproject.CrossProject
 import sbtcrossproject.CrossType
 import sbtcrossproject.Platform
+
+import scala.Ordering.Implicits.*
 
 name := "classy-optics"
 
@@ -46,7 +45,7 @@ val devScalacOptions = Set(
 ThisBuild / testFrameworks += new TestFramework("munit.Framework")
 
 def myCrossProject(name: String): CrossProject =
-  CrossProject(name, file(name.replace("classy-", "")))(JVMPlatform, JSPlatform, NativePlatform)
+  CrossProject(name, file(name.replace("classy-", "")))(JVMPlatform, JSPlatform)
     .crossType(CrossType.Full)
     .settings(
       tpolecatScalacOptions ~= fixScalcOptions,
