@@ -2,7 +2,6 @@ package classy.mtl.internal
 
 import cats.Monad
 import cats.mtl.Stateful
-import cats.syntax.functor.*
 
 import classy.optics.Lens
 

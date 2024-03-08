@@ -1,8 +1,8 @@
 package classy.effect.internal
 
 import cats.Functor
-import cats.effect.{IO, IOLocal}
-import cats.effect.instances.all.*
+import cats.effect.IO
+import cats.effect.IOLocal
 import cats.mtl.Tell
 
 private[classy] class IOLocalTell[A](parent: IOLocal[A]) extends Tell[IO, A]:

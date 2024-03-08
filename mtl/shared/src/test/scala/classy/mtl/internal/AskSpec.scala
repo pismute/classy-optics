@@ -1,7 +1,6 @@
 package classy.mtl.internal
 
 import cats.~>
-import cats.Eq
 import cats.Eval
 import cats.arrow.FunctionK
 import cats.data.Reader
@@ -10,8 +9,6 @@ import cats.laws.discipline.*
 import cats.laws.discipline.arbitrary.*
 import cats.mtl.Ask
 import cats.mtl.laws.discipline.*
-
-import org.scalacheck.Arbitrary
 
 import classy.mtl.*
 

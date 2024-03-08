@@ -7,7 +7,6 @@ import cats.data.Reader
 import cats.data.ReaderT
 import cats.laws.discipline.*
 import cats.laws.discipline.arbitrary.*
-import cats.laws.discipline.eq.*
 import cats.mtl.Local
 import cats.mtl.laws.discipline.*
 

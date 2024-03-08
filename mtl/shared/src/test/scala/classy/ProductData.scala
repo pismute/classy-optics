@@ -4,7 +4,6 @@ import cats.Eq
 import cats.derived.derived
 import cats.laws.discipline.*
 import cats.laws.discipline.arbitrary.*
-import cats.laws.discipline.eq.*
 
 import org.scalacheck.*
 
