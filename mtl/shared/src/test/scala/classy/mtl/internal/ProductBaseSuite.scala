@@ -26,7 +26,7 @@ trait ProductBaseSuite extends classy.BaseSuite:
   given eqKleisli[F[_], A, B](using Arbitrary[A], Eq[A => F[B]]): Eq[Kleisli[F, A, B]] =
     Eq.by((x: Kleisli[F, A, B]) => x.run)
 
-  given stateTEq[F[_], S, A](using S: Arbitrary[S], FSA: Eq[F[(S, A)]], F: FlatMap[F]): Eq[StateT[F, S, A]] =
+  given stateTEq[F[_], S, A](using Arbitrary[S], Eq[S => F[(S, A)]], FlatMap[F]): Eq[StateT[F, S, A]] =
     Eq.by[StateT[F, S, A], S => F[(S, A)]](state => s => state.run(s))
 
   def eqFAB[F[_], A, B](using a: Arbitrary[A], eq: Eq[F[B]]): Eq[A => F[B]] = Eq.instance { (f, g) =>

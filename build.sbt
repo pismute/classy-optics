@@ -1,13 +1,12 @@
-import scala.Ordering.Implicits.*
-
+import _root_.io.github.davidgregory084.ScalaVersion.*
+import _root_.io.github.davidgregory084.ScalacOption
 import org.typelevel.sbt.gha.JavaSpec.Distribution.Temurin
 import org.typelevel.sbt.gha.RefPredicate
-
-import _root_.io.github.davidgregory084.ScalacOption
-import _root_.io.github.davidgregory084.ScalaVersion.*
 import sbtcrossproject.CrossProject
 import sbtcrossproject.CrossType
 import sbtcrossproject.Platform
+
+import scala.Ordering.Implicits.*
 
 name := "classy-optics"
 
@@ -26,7 +25,7 @@ ThisBuild / developers := List(
   )
 )
 
-val Scala3 = "3.3.0"
+val Scala3 = "3.4.0"
 
 ThisBuild / crossScalaVersions := Seq(Scala3)
 ThisBuild / scalaVersion := Scala3 // the default Scala
