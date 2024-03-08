@@ -1,10 +1,9 @@
 package classy.mtl
 
-import scala.util.{Failure, Success, Try}
-
-import cats.{Applicative, Functor, Monad}
+import cats.Applicative
+import cats.Functor
+import cats.Monad
 import cats.mtl.*
-import cats.mtl.implicits.*
 
 import classy.mtl.auto.given
 

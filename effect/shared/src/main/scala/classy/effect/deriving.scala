@@ -2,9 +2,7 @@ package classy.effect
 
 import cats.Functor
 import cats.effect.Ref
-import cats.effect.std.AtomicCell
 
-import classy.effect.internal
 import classy.optics.Lens
 
 trait deriving:

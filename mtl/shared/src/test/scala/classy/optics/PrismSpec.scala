@@ -1,12 +1,15 @@
 package classy.optics
 
 class PrismSpec extends classy.BaseSuite:
-  enum AppError:
-    case HttpMsgError(port: Int, msg: String) extends AppError
-    case HttpError(port: Int) extends AppError
-    case NoError extends AppError
+  object default:
+    enum AppError:
+      case HttpMsgError(port: Int, msg: String) extends AppError
+      case HttpError(port: Int) extends AppError
+      case NoError extends AppError
 
   test("derived for root") {
+    import default.*
+
     val httpError: AppError.HttpError = AppError.HttpError(1)
     val httpPrism = summon[Prism[AppError, AppError.HttpError]]
     assertEquals(httpPrism.preview(httpError), Some(httpError))
@@ -19,6 +22,8 @@ class PrismSpec extends classy.BaseSuite:
   }
 
   test("derived for first level") {
+    import default.*
+
     val prism = summon[Prism[AppError, Int]] // via HttpError.
 
     val error = AppError.HttpError(1)
@@ -49,7 +54,7 @@ class PrismSpec extends classy.BaseSuite:
     assertEquals(iso2.composePrism(prism2).review(2), error2)
   }
 
-  test("defived for union type") {
+  object union:
     case class DbError(int: Int)
     case class HttpError(string: String)
     case class NetError(double: Double)
@@ -57,7 +62,8 @@ class PrismSpec extends classy.BaseSuite:
 
     type AppError = DbError | HttpError | NetError | CalcError
 
-    val a: AppError = DbError(1)
+  test("defived for union type") {
+    import union.*
 
     summon[Prism[AppError, DbError]]
     summon[Prism[AppError, HttpError]]
