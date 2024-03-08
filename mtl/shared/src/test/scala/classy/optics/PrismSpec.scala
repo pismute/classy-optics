@@ -65,8 +65,6 @@ class PrismSpec extends classy.BaseSuite:
   test("defived for union type") {
     import union.*
 
-    val a: AppError = DbError(1)
-
     summon[Prism[AppError, DbError]]
     summon[Prism[AppError, HttpError]]
     summon[Prism[AppError, NetError]]

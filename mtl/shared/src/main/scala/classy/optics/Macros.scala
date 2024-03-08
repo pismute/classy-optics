@@ -1,7 +1,6 @@
 package classy.optics
 
 import scala.quoted.*
-import scala.quoted.runtime.*
 
 private[classy] object Macros:
   def showTypeAlias[T: Type](using Quotes): String =

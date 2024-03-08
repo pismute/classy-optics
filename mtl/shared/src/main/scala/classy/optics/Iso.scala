@@ -2,8 +2,6 @@ package classy.optics
 
 import scala.annotation.implicitNotFound
 
-import Tuple.*
-
 /** generate an Iso optic for a isomorphic product
   *
   * {{{

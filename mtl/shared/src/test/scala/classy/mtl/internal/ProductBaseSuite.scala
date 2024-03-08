@@ -1,12 +1,12 @@
 package classy.mtl.internal
 
-import cats.{~>, Eq, FlatMap, Id}
+import cats.~>
+import cats.Eq
+import cats.FlatMap
+import cats.Id
 import cats.arrow.FunctionK
-import cats.data.{Kleisli, Reader, StateT}
-import cats.derived.derived
-import cats.laws.discipline.*
-import cats.laws.discipline.arbitrary.*
-import cats.laws.discipline.eq.*
+import cats.data.Kleisli
+import cats.data.StateT
 
 import org.scalacheck.*
 

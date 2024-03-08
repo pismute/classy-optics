@@ -1,6 +1,7 @@
 package classy.mtl
 
-import scala.util.{Failure, Success, Try}
+import scala.util.Failure
+import scala.util.Success
 
 import cats.Functor
 import cats.data.Validated

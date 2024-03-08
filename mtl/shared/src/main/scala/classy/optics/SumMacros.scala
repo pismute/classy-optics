@@ -1,6 +1,5 @@
 package classy.optics
 
-import scala.compiletime.*
 import scala.deriving.*
 import scala.quoted.*
 
@@ -26,8 +25,6 @@ private[classy] object SumMacros:
   end mkReview
 
   private def genEnumReview[T: Type, A: Type](using q: Quotes): ReviewOr[T, A] =
-    import quotes.reflect.*
-
     Expr
       .summon[Mirror.SumOf[T]]
       .toRight(s"${Type.show[T]} is not a sum type")
@@ -61,8 +58,6 @@ private[classy] object SumMacros:
   end mkPrism
 
   private def genEnumPrism[T: Type, A: Type](using q: Quotes): PrismOr[T, A] =
-    import quotes.reflect.*
-
     Expr
       .summon[Mirror.SumOf[T]]
       .toRight(s"${Type.show[T]} is not a sum type")
