@@ -1,12 +1,13 @@
-import _root_.io.github.davidgregory084.ScalaVersion.*
-import _root_.io.github.davidgregory084.ScalacOption
+import scala.Ordering.Implicits.*
+
 import org.typelevel.sbt.gha.JavaSpec.Distribution.Temurin
 import org.typelevel.sbt.gha.RefPredicate
+
+import _root_.io.github.davidgregory084.ScalacOption
+import _root_.io.github.davidgregory084.ScalaVersion.*
 import sbtcrossproject.CrossProject
 import sbtcrossproject.CrossType
 import sbtcrossproject.Platform
-
-import scala.Ordering.Implicits.*
 
 name := "classy-optics"
 
