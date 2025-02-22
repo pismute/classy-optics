@@ -45,9 +45,12 @@ trait Prism[S, A] extends Review[S, A]:
   def unapply(s: S): Option[A] = preview(s)
 
 private[classy] object Prism:
-  inline def apply[S, A](_preview: (S) => Option[A])(_review: A => S): Prism[S, A] = new Prism[S, A]:
-    def preview: S => Option[A] = _preview
-    def review: A => S = _review
+  class UnnamedPrism[S, A](_preview: (S) => Option[A])(_review: A => S) extends Prism[S, A]:
+    override def preview: S => Option[A] = _preview
+    override def review: A => S = _review
+
+  inline def apply[S, A](_preview: (S) => Option[A])(_review: A => S): Prism[S, A] =
+    new UnnamedPrism[S, A](_preview)(_review)
 
   inline def fromPF[S, A](_preview: => PartialFunction[S, A])(_review: A => S): Prism[S, A] =
     apply[S, A](_preview.lift)(_review)

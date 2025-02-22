@@ -42,8 +42,10 @@ import scala.annotation.implicitNotFound
   def review: A => S
 
 private[classy] object Review:
-  inline def apply[S, A](_review: A => S): Review[S, A] = new Review[S, A]:
-    def review: A => S = _review
+  class UnnamedReview[S, A](_review: A => S) extends Review[S, A]:
+    override def review: A => S = _review
+
+  inline def apply[S, A](_review: A => S): Review[S, A] = new UnnamedReview[S, A](_review)
 
   inline given derived[S, A]: Review[S, A] = ${ SumMacros.genReview[S, A] }
 end Review

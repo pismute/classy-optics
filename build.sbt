@@ -26,18 +26,10 @@ ThisBuild / developers := List(
   )
 )
 
-val Scala3 = "3.4.2"
+val Scala3 = "3.6.3"
 
-ThisBuild / crossScalaVersions := Seq(Scala3)
 ThisBuild / scalaVersion := Scala3 // the default Scala
 ThisBuild / versionScheme := Some("early-semver")
-
-def fixScalcOptions(opts: Set[ScalacOption]): Set[ScalacOption] = {
-  opts.map { opt =>
-    if (opt != ScalacOptions.privateKindProjector) opt
-    else ScalacOptions.privateOption("kind-projector:underscores", _ >= V3_0_0)
-  }
-}
 
 val devScalacOptions = Set(
   ScalacOptions.advancedOption("check-macros", _ >= V3_0_0)
@@ -49,7 +41,6 @@ def myCrossProject(name: String): CrossProject =
   CrossProject(name, file(name.replace("classy-", "")))(JVMPlatform, JSPlatform)
     .crossType(CrossType.Full)
     .settings(
-      tpolecatScalacOptions ~= fixScalcOptions,
       tpolecatDevModeOptions ++= devScalacOptions
     )
 

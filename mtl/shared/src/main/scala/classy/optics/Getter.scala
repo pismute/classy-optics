@@ -26,7 +26,9 @@ trait Getter[S, A]:
   def view: S => A
 
 private[classy] object Getter:
-  inline def apply[S, A](_view: S => A): Getter[S, A] = new Getter[S, A]:
-    def view: S => A = _view
+  class UnnamedGetter[S, A](_view: S => A) extends Getter[S, A]:
+    override def view: S => A = _view
+
+  inline def apply[S, A](_view: S => A): Getter[S, A] = new UnnamedGetter[S, A](_view)
 
   inline given derived[T <: Product, A]: Getter[T, A] = ${ ProductMacros.genGetter[T, A] }

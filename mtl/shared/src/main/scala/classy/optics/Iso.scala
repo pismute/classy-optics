@@ -26,8 +26,10 @@ trait Iso[S, A] extends Getter[S, A] with Review[S, A]:
     Review[B, A](other.review.compose(outer.review))
 
 private[classy] object Iso:
-  inline def apply[S, A](_view: S => A)(_review: A => S): Iso[S, A] = new Iso[S, A]:
-    def view: S => A = _view
-    def review: A => S = _review
+  class UnnamedIso[S, A](_view: S => A)(_review: A => S) extends Iso[S, A]:
+    override def view: S => A = _view
+    override def review: A => S = _review
+
+  inline def apply[S, A](_view: S => A)(_review: A => S): Iso[S, A] = new UnnamedIso[S, A](_view)(_review)
 
   inline given derived[T <: Product, A]: Iso[T, A] = ${ ProductMacros.genIso[T, A] }

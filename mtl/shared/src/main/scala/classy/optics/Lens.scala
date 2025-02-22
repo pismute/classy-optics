@@ -32,9 +32,11 @@ trait Lens[S, A] extends Getter[S, A]:
   inline def update(s: S)(f: A => A): S = set(s)(f(view(s)))
 
 private[classy] object Lens:
-  inline def apply[S, A](_view: S => A)(_set: S => A => S): Lens[S, A] = new Lens[S, A]:
-    def view: S => A = _view
-    def set: S => A => S = _set
+  class UnnamedLens[S, A](_view: S => A)(_set: S => A => S) extends Lens[S, A]:
+    override def view: S => A = _view
+    override def set: S => A => S = _set
+
+  inline def apply[S, A](_view: S => A)(_set: S => A => S): Lens[S, A] = new UnnamedLens[S, A](_view)(_set)
 
   inline given derived[T <: Product, A]: Lens[T, A] = ${ ProductMacros.genLens[T, A] }
 end Lens
