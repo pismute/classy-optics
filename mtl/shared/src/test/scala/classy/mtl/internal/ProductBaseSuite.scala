@@ -1,12 +1,13 @@
 package classy.mtl.internal
 
+import cats.~>
 import cats.Eq
 import cats.FlatMap
 import cats.Id
 import cats.arrow.FunctionK
 import cats.data.Kleisli
 import cats.data.StateT
-import cats.~>
+
 import org.scalacheck.*
 
 trait ProductBaseSuite extends classy.BaseSuite:
