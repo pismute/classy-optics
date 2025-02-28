@@ -48,7 +48,7 @@ val mtl = myCrossProject("classy-mtl")
   .settings(
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-mtl" % "1.5.0",
-      "org.scalameta" %% "munit" % "1.0.4" % Test,
+      "org.scalameta" %% "munit" % "1.1.0" % Test,
       "org.scalameta" %% "munit-scalacheck" % "1.0.0" % Test,
       "org.typelevel" %% "cats-laws" % "2.13.0" % Test,
       "org.typelevel" %% "cats-mtl-laws" % "1.5.0" % Test,
