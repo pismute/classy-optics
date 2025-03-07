@@ -26,7 +26,7 @@ ThisBuild / developers := List(
   )
 )
 
-val Scala3 = "3.6.3"
+val Scala3 = "3.6.4"
 
 ThisBuild / scalaVersion := Scala3 // the default Scala
 ThisBuild / versionScheme := Some("early-semver")
