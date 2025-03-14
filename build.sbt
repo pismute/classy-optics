@@ -53,7 +53,7 @@ val mtl = myCrossProject("classy-mtl")
       "org.typelevel" %% "cats-laws" % "2.13.0" % Test,
       "org.typelevel" %% "cats-mtl-laws" % "1.5.0" % Test,
       "org.typelevel" %% "discipline-munit" % "2.0.0" % Test,
-      "org.typelevel" %% "kittens" % "3.4.0" % Test
+      "org.typelevel" %% "kittens" % "3.5.0" % Test
     )
   )
 
